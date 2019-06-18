@@ -3,8 +3,12 @@ package com.sorin.simplecart.service.impl;
 import com.sorin.simplecart.bean.User;
 import com.sorin.simplecart.dao.UserDAO;
 import com.sorin.simplecart.service.api.UserServcie;
+import com.sorin.simplecart.utils.Page4Navigator;
 import com.sorin.simplecart.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +19,14 @@ import org.springframework.stereotype.Service;
  * @date 2019/06/13
  **/
 @Service
+@CacheConfig(cacheNames = "user")
 public class UserServcieImpl implements UserServcie {
     @Autowired
     UserDAO userDAO;
 
     @Override
-    public Page<User> select(int offset, int limit, String sortField, String orderType, String id, String name) {
+    @Cacheable(key = "'user ' + #p0 + '~' + #p1")
+    public Page4Navigator<User> select(int offset, int limit, String sortField, String orderType, String id, String name) {
 
         User user = new User();
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
@@ -56,15 +62,18 @@ public class UserServcieImpl implements UserServcie {
                 sort = "id";
         }
         PageRequest pageRequest = PageRequest.of(offset, limit, direction, sort);
-        return userDAO.findAll(example, pageRequest);
+        Page<User> jpaPage = userDAO.findAll(example, pageRequest);
+        return new Page4Navigator<User>(jpaPage, 5);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void delete(User user) {
         userDAO.delete(user);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void add(User user) {
         userDAO.save(user);
     }

@@ -1,10 +1,7 @@
 package com.sorin.simplecart.service.api;
 
 import com.sorin.simplecart.bean.User;
-import org.springframework.data.domain.Page;
-
-import java.util.List;
-import java.util.Map;
+import com.sorin.simplecart.utils.Page4Navigator;
 
 /**
  * userService
@@ -27,7 +24,7 @@ public interface UserServcie {
      * @author LSD
      * @date 2019/6/13
      */
-    Page<User> select(int offset, int limit, String sort, String order, String id, String name);
+    Page4Navigator<User> select(int offset, int limit, String sort, String order, String id, String name);
 
     /**
      * 删除

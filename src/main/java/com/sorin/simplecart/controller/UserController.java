@@ -4,17 +4,16 @@ import com.sorin.simplecart.base.BaseResult;
 import com.sorin.simplecart.base.BaseResultConstant;
 import com.sorin.simplecart.bean.User;
 import com.sorin.simplecart.service.api.UserServcie;
+import com.sorin.simplecart.utils.Page4Navigator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * userController
@@ -26,6 +25,8 @@ import java.util.Map;
 @RequestMapping("/user")
 @Api(tags = "用户管理", description = "CRUD")
 public class UserController {
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserServcie userServcie;
 
@@ -40,9 +41,10 @@ public class UserController {
             @RequestParam(required = false, value = "name") String name
     ) {
         try {
-            Page<User> users = userServcie.select(offset, limit, sort, order, id, name);
+            Page4Navigator<User> users = userServcie.select(offset, limit, sort, order, id, name);
             return new BaseResult(BaseResultConstant.SUCCESS, users);
         } catch (Exception e) {
+            logger.error("UserController.select--error:", e);
             return new BaseResult(BaseResultConstant.FAILED, null);
         }
     }
@@ -63,6 +65,7 @@ public class UserController {
             userServcie.add(user);
             return new BaseResult(BaseResultConstant.SUCCESS, null);
         } catch (Exception e) {
+            logger.error("UserController.add--error:", e);
             return new BaseResult(BaseResultConstant.FAILED, null);
         }
     }
@@ -80,6 +83,7 @@ public class UserController {
             userServcie.delete(user);
             return new BaseResult(BaseResultConstant.SUCCESS, null);
         } catch (Exception e) {
+            logger.error("UserController.delete--error:", e);
             return new BaseResult(BaseResultConstant.FAILED, null);
         }
     }
