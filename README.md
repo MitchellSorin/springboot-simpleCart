@@ -6,3 +6,4 @@ the cart includes user, item and order
 * jpa
 * redis
 * swagger
+* websocket
