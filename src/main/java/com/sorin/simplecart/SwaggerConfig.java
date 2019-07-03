@@ -25,6 +25,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 //不显示错误的接口地址
                 .paths(Predicates.not(PathSelectors.regex("/error.*")))
+                .paths(Predicates.not(PathSelectors.regex("/unauthorized")))
                 .build();
     }
 
@@ -32,7 +33,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("购物车")
                 // .description("一个简单的购物车")
-                .contact(new Contact("sorin", "", "1120769223@qq.com"))
+                .contact(new Contact("sorin", "", "hello_swagger@qq.com"))
                 // .license("The Apache License, Version 2.0")
                 // .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .version("1.0.0-SNAPSHOT")

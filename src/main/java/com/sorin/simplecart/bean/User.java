@@ -20,11 +20,14 @@ public class User implements Serializable {
     @Column(length = 32)
     private String id;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 32, nullable = false, unique = true)
     private String name;
 
     @Column(length = 32, nullable = false)
     private String password;
+
+    @Column(length = 16, nullable = false)
+    private String salt;
 
     public String getId() {
         return id;
@@ -48,5 +51,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

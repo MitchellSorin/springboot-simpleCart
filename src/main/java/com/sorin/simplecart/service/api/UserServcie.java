@@ -1,7 +1,10 @@
 package com.sorin.simplecart.service.api;
 
+import com.sorin.simplecart.bean.Permission;
 import com.sorin.simplecart.bean.User;
 import com.sorin.simplecart.utils.Page4Navigator;
+
+import java.util.List;
 
 /**
  * userService
@@ -27,6 +30,16 @@ public interface UserServcie {
     Page4Navigator<User> select(int offset, int limit, String sort, String order, String id, String name);
 
     /**
+     * 查询
+     *
+     * @param name name
+     * @return com.sorin.simplecart.bean.User
+     * @author LSD
+     * @date 2019/7/2
+     */
+    User selectByName(String name);
+
+    /**
      * 删除
      *
      * @param user user
@@ -43,4 +56,15 @@ public interface UserServcie {
      * @date 2019/6/13
      */
     void add(User user);
+
+    /**
+     * 获取用户权限
+     *
+     * @param id id
+     * @return java.util.List<java.util.Map>
+     * @author LSD
+     * @date 2019/7/2
+     */
+    List<Permission> getPermission(String id);
+
 }

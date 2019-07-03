@@ -7,3 +7,4 @@ the cart includes user, item and order
 * redis
 * swagger
 * websocket
+* shiro

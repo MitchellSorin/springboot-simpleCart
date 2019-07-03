@@ -1,10 +1,12 @@
 package com.sorin.simplecart.dao;
 
+import com.sorin.simplecart.bean.Permission;
 import com.sorin.simplecart.bean.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * userDAO
@@ -15,47 +17,25 @@ import java.util.List;
 public interface UserDAO extends JpaRepository<User, String> {
 
     /**
-     * id或者name查询
+     * 名称查询
      *
-     * @param id   id
-     * @param name name
-     * @return java.util.List<com.sorin.simplecart.bean.User>
+     * @param name
+     * @return com.sorin.simplecart.bean.User
      * @author LSD
-     * @date 2019/6/12
+     * @date 2019/7/2
      */
-    List<User> findByIdOrName(String id, String name);
+    User findByNameEquals(String name);
 
     /**
-     * name模糊查询
+     * 获取用户权限
      *
-     * @param name name片段
-     * @return java.util.List<com.sorin.simplecart.bean.User>
+     * @param id
+     * @return java.util.List<java.util.Map>
      * @author LSD
-     * @date 2019/6/12
+     * @date 2019/6/24
      */
-    List<User> findByNameLike(String name);
-
-    /**
-     * 查询多个name
-     *
-     * @param names 多个name
-     * @return java.util.List<com.sorin.simplecart.bean.User>
-     * @author LSD
-     * @date 2019/6/12
-     */
-    List<User> findByNameIn(List<String> names);
-
-    /**
-     * 原生sql通过id或者name查询
-     *
-     * @param id   id
-     * @param name name
-     * @return java.util.List<com.sorin.simplecart.bean.User>
-     * @author LSD
-     * @date 2019/6/12
-     */
-    @Query(nativeQuery = true, value = "select * from user where user_id = ? or user_name = ?")
-    List<User> selectByIdOrName(String id, String name);
-
+    @Query(nativeQuery = true,
+            value = "select d.* from user_ a left join user_role b on a.id = b.user_id left join role_permission c on b.role_id = c.role_id left join permission_ d on c.permission_id = d.id where a.id = ?")
+    List<Permission> getPermission(String id);
 
 }

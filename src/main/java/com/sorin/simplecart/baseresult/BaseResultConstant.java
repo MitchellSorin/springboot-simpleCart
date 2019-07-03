@@ -1,4 +1,4 @@
-package com.sorin.simplecart.base;
+package com.sorin.simplecart.baseresult;
 
 /**
  * 返回结果标识
@@ -10,7 +10,17 @@ public enum BaseResultConstant {
     //error
     FAILED(0, "failed"),
     //success
-    SUCCESS(1, "success");
+    SUCCESS(1, "success"),
+    //loginSuccess
+    LOGINSUCCESS(2, "登录成功"),
+    //loginFail
+    LOGINFAIL(3, "登录失败"),
+    //unlogin
+    UNLOGIN(4, "未登录或会话已失效"),
+    //unauthorized
+    UNAUTHORIZED(5, "当前用户无权访问"),
+    //logoutSuccess
+    LOGOUTSUCCESS(6, "登出成功");
 
     public int code;
     public String message;

@@ -1,5 +1,6 @@
 package com.sorin.simplecart.service.impl;
 
+import com.sorin.simplecart.bean.Permission;
 import com.sorin.simplecart.bean.User;
 import com.sorin.simplecart.dao.UserDAO;
 import com.sorin.simplecart.service.api.UserServcie;
@@ -12,6 +13,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * userServiceImpl
  *
@@ -22,7 +25,7 @@ import org.springframework.stereotype.Service;
 @CacheConfig(cacheNames = "user")
 public class UserServcieImpl implements UserServcie {
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Override
     @Cacheable(key = "'user ' + #p0 + '~' + #p1")
@@ -63,7 +66,13 @@ public class UserServcieImpl implements UserServcie {
         }
         PageRequest pageRequest = PageRequest.of(offset, limit, direction, sort);
         Page<User> jpaPage = userDAO.findAll(example, pageRequest);
-        return new Page4Navigator<User>(jpaPage, 5);
+        return new Page4Navigator<>(jpaPage, 5);
+    }
+
+    @Override
+    @Cacheable(key = "'user name:'+#p0")
+    public User selectByName(String name) {
+        return userDAO.findByNameEquals(name);
     }
 
     @Override
@@ -75,6 +84,13 @@ public class UserServcieImpl implements UserServcie {
     @Override
     @CacheEvict(allEntries = true)
     public void add(User user) {
-        userDAO.save(user);
+        userDAO.saveAndFlush(user);
+    }
+
+
+    @Override
+    @Cacheable(key = "'user_permission user_id:' + #p0")
+    public List<Permission> getPermission(String id) {
+        return userDAO.getPermission(id);
     }
 }

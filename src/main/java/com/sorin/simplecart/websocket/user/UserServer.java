@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author LSD
  * @date 2019/06/19
  **/
-@ServerEndpoint("/user/dataServer")
+@ServerEndpoint("/ws/user/dataServer")
 public class UserServer {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServer.class);

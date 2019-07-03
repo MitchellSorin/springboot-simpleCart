@@ -1,12 +1,14 @@
 package com.sorin.simplecart.controller;
 
-import com.sorin.simplecart.base.BaseResult;
-import com.sorin.simplecart.base.BaseResultConstant;
+import com.sorin.simplecart.baseresult.BaseResult;
+import com.sorin.simplecart.baseresult.BaseResultConstant;
 import com.sorin.simplecart.bean.User;
 import com.sorin.simplecart.service.api.UserServcie;
 import com.sorin.simplecart.utils.Page4Navigator;
+import com.sorin.simplecart.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,16 +54,23 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "新增或修改")
     public Object add(
-            @RequestParam(value = "id") String id,
             @RequestParam(value = "name") String name,
             @RequestParam(value = "password") String password
 
     ) {
         try {
-            User user = new User();
-            user.setId(id);
-            user.setName(name);
-            user.setPassword(password);
+            User user = userServcie.selectByName(name);
+            if (null != user) {
+                String salt = user.getSalt();
+                user.setPassword(new SimpleHash("md5", password, salt, 2).toString());
+            } else {
+                user = new User();
+                user.setId(StringUtils.random(32));
+                user.setName(name);
+                String salt = StringUtils.random(16);
+                user.setPassword(new SimpleHash("md5", password, salt, 2).toString());
+                user.setSalt(salt);
+            }
             userServcie.add(user);
             return new BaseResult(BaseResultConstant.SUCCESS, null);
         } catch (Exception e) {
@@ -73,14 +82,13 @@ public class UserController {
     @RequestMapping(method = RequestMethod.DELETE)
     @ApiOperation(value = "删除")
     public Object delete(
-            @RequestParam(required = false, value = "id") String id,
             @RequestParam(required = false, value = "name") String name
     ) {
         try {
-            User user = new User();
-            user.setId(id);
-            user.setName(name);
-            userServcie.delete(user);
+            User user = userServcie.selectByName(name);
+            if (null != user) {
+                userServcie.delete(user);
+            }
             return new BaseResult(BaseResultConstant.SUCCESS, null);
         } catch (Exception e) {
             logger.error("UserController.delete--error:", e);

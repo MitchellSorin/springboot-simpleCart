@@ -1,4 +1,4 @@
-package com.sorin.simplecart.base;
+package com.sorin.simplecart.baseresult;
 
 /**
  * 返回结果
