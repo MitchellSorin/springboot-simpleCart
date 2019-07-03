@@ -36,8 +36,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> selectByName(String name) {
+        return roleDAO.findByNameContains(name);
+    }
+
+    @Override
     public void add(Role role) {
-        roleDAO.save(role);
+        roleDAO.saveAndFlush(role);
     }
 
     @Override

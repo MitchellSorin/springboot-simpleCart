@@ -3,7 +3,6 @@ package com.sorin.simplecart.service.api;
 import com.sorin.simplecart.bean.Permission;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 权限service
@@ -31,6 +30,15 @@ public interface PermissionService {
      * @date 2019/6/20
      */
     Permission selectByPrimaryKey(String id);
+
+    /**
+     * 名称获取权限
+     *
+     * @return java.util.List<com.sorin.simplecart.bean.Permission>
+     * @author LSD
+     * @date 2019/7/3
+     */
+    List<Permission> selectByName(String name);
 
     /**
      * 新增或修改权限

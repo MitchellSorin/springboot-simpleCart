@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/06/12
  **/
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/cart/user")
 @Api(tags = "用户管理", description = "CRUD")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -32,7 +32,7 @@ public class UserController {
     @Autowired
     private UserServcie userServcie;
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "查询")
     public Object select(
             @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
@@ -51,7 +51,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "新增或修改")
     public Object add(
             @RequestParam(value = "name") String name,
@@ -79,7 +79,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     @ApiOperation(value = "删除")
     public Object delete(
             @RequestParam(required = false, value = "name") String name

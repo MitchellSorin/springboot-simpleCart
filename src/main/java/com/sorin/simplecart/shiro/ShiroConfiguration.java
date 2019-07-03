@@ -45,9 +45,11 @@ public class ShiroConfiguration {
         //filter
         Map<String, String> filterChainMap = new LinkedHashMap<>();
         filterChainMap.put("/login", "anon");
+        filterChainMap.put("/logout", "anon");
         filterChainMap.put("/**.html", "anon");
         filterChainMap.put("/unauthorized", "anon");
         filterChainMap.put("/cart/**", "url");
+        filterChainMap.put("/manage/**", "url");
         shiroFilterFactoryBean.setFilters(customisedFilter);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
         return shiroFilterFactoryBean;

@@ -36,8 +36,13 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<Permission> selectByName(String name) {
+        return permissionDAO.findByNameContains(name);
+    }
+
+    @Override
     public void add(Permission permission) {
-        permissionDAO.save(permission);
+        permissionDAO.saveAndFlush(permission);
     }
 
     @Override

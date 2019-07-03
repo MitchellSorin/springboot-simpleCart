@@ -32,6 +32,16 @@ public interface RoleService {
     Role selectByPrimaryKey(String id);
 
     /**
+     * 名称获取角色
+     *
+     * @param name
+     * @return java.util.List<com.sorin.simplecart.bean.Role>
+     * @author LSD
+     * @date 2019/7/3
+     */
+    List<Role> selectByName(String name);
+
+    /**
      * 新增或修改
      *
      * @param role
