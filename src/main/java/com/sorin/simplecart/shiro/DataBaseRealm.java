@@ -8,7 +8,6 @@ import com.sorin.simplecart.service.api.UserServcie;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -33,7 +32,7 @@ public class DataBaseRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String userId = (String) principalCollection.getPrimaryPrincipal();
-        List<UserRole> userRoles = userRoleService.selectByUserOrRole(userId, null);
+        List<UserRole> userRoles = userRoleService.selectByUserId(userId);
         List<Permission> userPermissions = userServcie.getPermission(userId);
         Set<String> roles = new HashSet<>();
         Set<String> permissions = new HashSet<>();
@@ -57,14 +56,14 @@ public class DataBaseRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取账号密码
         UsernamePasswordToken t = (UsernamePasswordToken) token;
-        String userName = t.getUsername();
+        String userId = t.getUsername();
         //获取数据库中密码
-        User user = userServcie.selectByName(userName);
+        User user = userServcie.selectById(userId);
         if (null == user) {
             throw new AuthenticationException();
         }
         String passwordInDB = user.getPassword();
         String salt = user.getSalt();
-        return new SimpleAuthenticationInfo(userName, passwordInDB, ByteSource.Util.bytes(salt), super.getName());
+        return new SimpleAuthenticationInfo(userId, passwordInDB, ByteSource.Util.bytes(salt), super.getName());
     }
 }

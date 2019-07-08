@@ -1,6 +1,7 @@
 package com.sorin.simplecart.bean.userrole;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 用户角色关联
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @IdClass(UserRoleKey.class)
 @Table(name = "user_role")
-public class UserRole {
+public class UserRole  implements Serializable {
 
     @Id
     @Column(length = 32)

@@ -43,15 +43,15 @@ public class ShiroConfiguration {
         Map<String, Filter> customisedFilter = new HashMap<>();
         customisedFilter.put("url", getURLPathMatchingFilter());
         //filter
-        Map<String, String> filterChainMap = new LinkedHashMap<>();
-        filterChainMap.put("/login", "anon");
-        filterChainMap.put("/logout", "anon");
-        filterChainMap.put("/**.html", "anon");
-        filterChainMap.put("/unauthorized", "anon");
-        filterChainMap.put("/cart/**", "url");
-        filterChainMap.put("/manage/**", "url");
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/logout", "authc");
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+        filterChainDefinitionMap.put("/unauthorized", "authc");
+        filterChainDefinitionMap.put("/cart/**", "url");
+        filterChainDefinitionMap.put("/manage/**", "url");
         shiroFilterFactoryBean.setFilters(customisedFilter);
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 

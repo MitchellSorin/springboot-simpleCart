@@ -4,6 +4,7 @@ import com.sorin.simplecart.baseresult.BaseResult;
 import com.sorin.simplecart.baseresult.BaseResultConstant;
 import com.sorin.simplecart.bean.Permission;
 import com.sorin.simplecart.service.api.PermissionService;
+import com.sorin.simplecart.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/manage/permission")
-@Api(tags = "权限管理", description = "CRUD")
+@Api(tags = "权限", description = "CRUD")
 public class PermissionController {
 
     private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
@@ -66,9 +67,13 @@ public class PermissionController {
         try {
             Permission permission = new Permission();
             permission.setDescription(desperation);
-            permission.setId(id);
             permission.setName(name);
             permission.setUrl(url);
+            if (StringUtils.isBlank(id)) {
+                id = StringUtils.random(32);
+            }
+            permission.setId(id);
+            permissionService.add(permission);
             return new BaseResult(BaseResultConstant.SUCCESS, null);
         } catch (Exception e) {
             logger.error("PermissionController.add--error:", e);

@@ -4,6 +4,7 @@ import com.sorin.simplecart.baseresult.BaseResult;
 import com.sorin.simplecart.baseresult.BaseResultConstant;
 import com.sorin.simplecart.bean.Role;
 import com.sorin.simplecart.service.api.RoleService;
+import com.sorin.simplecart.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/manage/role")
-@Api(tags = "角色管理", description = "CRUD")
+@Api(tags = "角色", description = "CRUD")
 public class RoleController {
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
 
@@ -63,9 +64,12 @@ public class RoleController {
     ) {
         try {
             Role role = new Role();
-            role.setId(id);
             role.setDescription(desperation);
             role.setName(name);
+            if (StringUtils.isBlank(id)) {
+                id = StringUtils.random(32);
+            }
+            role.setId(id);
             roleService.add(role);
             return new BaseResult(BaseResultConstant.SUCCESS, null);
         } catch (Exception e) {

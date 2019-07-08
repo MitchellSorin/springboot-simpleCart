@@ -6,14 +6,13 @@ import com.sorin.simplecart.dao.UserDAO;
 import com.sorin.simplecart.service.api.UserServcie;
 import com.sorin.simplecart.utils.Page4Navigator;
 import com.sorin.simplecart.utils.StringUtils;
+import com.sorin.simplecart.utils.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * userServiceImpl
@@ -22,15 +21,12 @@ import java.util.List;
  * @date 2019/06/13
  **/
 @Service
-@CacheConfig(cacheNames = "user")
 public class UserServcieImpl implements UserServcie {
     @Autowired
     private UserDAO userDAO;
 
     @Override
-    @Cacheable(key = "'user ' + #p0 + '~' + #p1")
     public Page4Navigator<User> select(int offset, int limit, String sortField, String orderType, String id, String name) {
-
         User user = new User();
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
         if (StringUtils.isNotBlank(id)) {
@@ -70,27 +66,44 @@ public class UserServcieImpl implements UserServcie {
     }
 
     @Override
-    @Cacheable(key = "'user name:'+#p0")
     public User selectByName(String name) {
-        return userDAO.findByNameEquals(name);
+        if (RedisUtils.hasKey("user:user_name:" + name)) {
+            return (User) RedisUtils.get("user:user_name:" + name);
+        }
+        User user = userDAO.findByNameEquals(name);
+        RedisUtils.set("user:user_name:" + name, user, 1800);
+        return user;
     }
 
     @Override
-    @CacheEvict(allEntries = true)
+    public User selectById(String id) {
+        if (RedisUtils.hasKey("user:user_id:" + id)) {
+            return (User) RedisUtils.get("user:user_id:" + id);
+        }
+        Optional<User> op = userDAO.findById(id);
+        User user = op.orElse(null);
+        RedisUtils.set("user:user_id:" + id, user, 1800);
+        return user;
+    }
+
+    @Override
     public void delete(User user) {
         userDAO.delete(user);
+        RedisUtils.del("user:user_name:" + user.getName(),
+                "user:user_id:" + user.getId(),
+                "user:user_permission_userId:" + user.getId());
     }
 
     @Override
-    @CacheEvict(allEntries = true)
     public void add(User user) {
         userDAO.saveAndFlush(user);
     }
 
 
     @Override
-    @Cacheable(key = "'user_permission user_id:' + #p0")
     public List<Permission> getPermission(String id) {
-        return userDAO.getPermission(id);
+        List<Permission> permissions = userDAO.getPermission(id);
+        RedisUtils.set("user:user_permission_userId:" + id, permissions);
+        return permissions;
     }
 }

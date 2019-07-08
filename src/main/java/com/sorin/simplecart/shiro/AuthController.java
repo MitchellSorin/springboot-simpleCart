@@ -4,14 +4,12 @@ import com.sorin.simplecart.baseresult.BaseResult;
 import com.sorin.simplecart.baseresult.BaseResultConstant;
 import com.sorin.simplecart.bean.User;
 import com.sorin.simplecart.service.api.UserServcie;
-import com.sorin.simplecart.utils.Page4Navigator;
 import com.sorin.simplecart.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/07/03
  **/
 @RestController
-@Api(tags = "登录管理", description = "登录系统")
+@Api(tags = "登录", description = "登录系统")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private UserServcie userServcie;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login")
     @ApiOperation(value = "登录")
     public Object login(
             @RequestParam(required = false, value = "userName") String userName,
@@ -61,7 +59,7 @@ public class AuthController {
                 userServcie.add(user);
             }
             //登录
-            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+            UsernamePasswordToken token = new UsernamePasswordToken(user.getId(), password);
             subject.login(token);
             if (subject.isAuthenticated()) {
                 return new BaseResult(BaseResultConstant.LOGINSUCCESS, null);
@@ -88,7 +86,7 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/unauthorized", method = RequestMethod.GET)
+    @RequestMapping(value = "/unauthorized")
     public Object unauthorized() {
         return new BaseResult(BaseResultConstant.UNAUTHORIZED, null);
     }

@@ -1,6 +1,10 @@
 package com.sorin.simplecart.bean.order;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * order
@@ -10,18 +14,18 @@ import javax.persistence.*;
  **/
 @Entity
 @Table(name = "order_")
-@IdClass(OrderKey.class)
-public class Order {
+// @IdClass(OrderKey.class)
+public class Order  implements Serializable {
 
     @Id
     @Column(length = 32)
     private String id;
 
-    @Id
+    // @Id
     @Column(length = 32)
     private String userId;
 
-    @Id
+    // @Id
     @Column(length = 32)
     private String itemId;
 

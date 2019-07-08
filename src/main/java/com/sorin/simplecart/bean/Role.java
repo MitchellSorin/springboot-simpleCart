@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * 角色
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  **/
 @Entity
 @Table(name = "role_")
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @Column(length = 32, nullable = false)

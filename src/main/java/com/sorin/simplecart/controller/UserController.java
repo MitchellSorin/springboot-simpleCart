@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/cart/user")
-@Api(tags = "用户管理", description = "CRUD")
+@Api(tags = "用户", description = "CRUD")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 

@@ -1,6 +1,7 @@
 package com.sorin.simplecart.bean.rolepermission;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 角色权限关联
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "role_permission")
 @IdClass(RolePermissionKey.class)
-public class RolePermission {
+public class RolePermission  implements Serializable {
 
     @Id
     @Column(length = 32)

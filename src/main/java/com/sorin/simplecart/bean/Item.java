@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
  **/
 @Entity
 @Table(name = "item_")
-public class Item {
+public class Item  implements Serializable {
     @Id
     @Column(length = 32)
     private String id;

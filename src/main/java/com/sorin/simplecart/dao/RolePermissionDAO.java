@@ -4,6 +4,9 @@ import com.sorin.simplecart.bean.rolepermission.RolePermission;
 import com.sorin.simplecart.bean.rolepermission.RolePermissionKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.validation.constraints.Null;
+import java.util.List;
+
 /**
  * 角色权限dao
  *

@@ -30,7 +30,7 @@ public interface UserServcie {
     Page4Navigator<User> select(int offset, int limit, String sort, String order, String id, String name);
 
     /**
-     * 查询
+     * 名称查询
      *
      * @param name name
      * @return com.sorin.simplecart.bean.User
@@ -38,6 +38,16 @@ public interface UserServcie {
      * @date 2019/7/2
      */
     User selectByName(String name);
+
+    /**
+     * id查询
+     *
+     * @param id
+     * @return com.sorin.simplecart.bean.User
+     * @author LSD
+     * @date 2019/7/5
+     */
+    User selectById(String id);
 
     /**
      * 删除

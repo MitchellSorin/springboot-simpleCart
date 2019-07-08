@@ -71,10 +71,10 @@ public interface PermissionService {
     /**
      * 获取用户权限内的URL
      *
-     * @param userName
+     * @param userId
      * @return java.util.List<java.lang.String>
      * @author LSD
      * @date 2019/7/2
      */
-    List<String> listPermissibleURLs(String userName);
+    List<String> listPermissibleURLs(String userId);
 }

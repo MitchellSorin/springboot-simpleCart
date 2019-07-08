@@ -13,15 +13,24 @@ import java.util.List;
 public interface UserRoleService {
 
     /**
-     * 查询用户角色
+     * 查看用户的角色
      *
      * @param userId
+     * @return java.util.List<com.sorin.simplecart.bean.userrole.UserRole>
+     * @author LSD
+     * @date 2019/7/5
+     */
+    List<UserRole> selectByUserId(String userId);
+
+    /**
+     * 查看角色给了哪些用户
+     *
      * @param roleId
      * @return java.util.List<com.sorin.simplecart.bean.userrole.UserRole>
      * @author LSD
-     * @date 2019/6/20
+     * @date 2019/7/5
      */
-    List<UserRole> selectByUserOrRole(String userId, String roleId);
+    List<UserRole> selectByRoleId(String roleId);
 
     /**
      * 新增

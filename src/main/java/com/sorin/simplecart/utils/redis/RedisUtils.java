@@ -1,9 +1,13 @@
 package com.sorin.simplecart.utils.redis;
 
+import org.hibernate.event.spi.PostUpdateEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,10 +16,15 @@ import java.util.concurrent.TimeUnit;
  * @author LSD
  * @date 2019/06/19
  **/
+@Component
 public class RedisUtils {
 
+    private static RedisTemplate<String, Object> redisTemplate;
+
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        RedisUtils.redisTemplate = redisTemplate;
+    }
 
     /**
      * 设置失效时间
@@ -26,7 +35,7 @@ public class RedisUtils {
      * @author LSD
      * @date 2019/6/19
      */
-    public boolean expire(String key, long time) {
+    public static boolean expire(String key, long time) {
         try {
             if (time > 0) {
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);
@@ -45,7 +54,7 @@ public class RedisUtils {
      * @author LSD
      * @date 2019/6/19
      */
-    public long getExpire(String key) {
+    public static long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
@@ -58,7 +67,7 @@ public class RedisUtils {
      * @author LSD
      * @date 2019/6/19
      */
-    public boolean hasKey(String key) {
+    public static boolean hasKey(String key) {
         try {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
@@ -73,13 +82,29 @@ public class RedisUtils {
      * @author LSD
      * @date 2019/6/19
      */
-    public void del(String... key) {
+    public static void del(String... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
                 redisTemplate.delete(key[0]);
             } else {
                 redisTemplate.delete(Arrays.asList(key));
             }
+        }
+    }
+
+    /**
+     * 删除模糊匹配到的所有键
+     *
+     * @param regex
+     * @return void
+     * @author LSD
+     * @date 2019/7/8
+     */
+    public static void delByRegex(String regex) {
+        Set<String> keys = getKeys(regex);
+        Iterator<String> iterator = keys.iterator();
+        if (iterator.hasNext()) {
+            del(iterator.next());
         }
     }
 
@@ -91,7 +116,7 @@ public class RedisUtils {
      * @author LSD
      * @date 2019/6/19
      */
-    public Object get(String key) {
+    public static Object get(String key) {
         return null == key ? null : redisTemplate.opsForValue().get(key);
     }
 
@@ -105,12 +130,12 @@ public class RedisUtils {
      * @author LSD
      * @date 2019/6/19
      */
-    public boolean set(String key, Object value, long time) {
+    public static boolean set(String key, Object value, long time) {
         try {
             if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             } else {
-                this.set(key, value);
+                set(key, value);
             }
             return true;
         } catch (Exception e) {
@@ -127,13 +152,25 @@ public class RedisUtils {
      * @author LSD
      * @date 2019/6/19
      */
-    public boolean set(String key, Object value) {
+    public static boolean set(String key, Object value) {
         try {
             redisTemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * 模糊查询所有的key
+     *
+     * @param reg
+     * @return java.util.Set<java.lang.String>
+     * @author LSD
+     * @date 2019/7/8
+     */
+    public static Set<String> getKeys(String reg) {
+        return redisTemplate.keys(reg);
     }
 
 

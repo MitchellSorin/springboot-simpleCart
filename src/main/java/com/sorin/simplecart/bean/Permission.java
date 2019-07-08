@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * 权限
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  **/
 @Entity
 @Table(name = "permission_")
-public class Permission {
+public class Permission  implements Serializable {
 
     @Id
     @Column(length = 32, nullable = false)
@@ -25,7 +26,7 @@ public class Permission {
     @Column(length = 32)
     private String description;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 128, nullable = false)
     private String url;
 
     public String getId() {
