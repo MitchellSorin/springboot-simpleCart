@@ -59,13 +59,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void add(Item item) {
-        itemDAO.saveAndFlush(item);
         RedisUtils.del("item:all");
+        itemDAO.saveAndFlush(item);
     }
 
     @Override
     public void delete(Item item) {
-        itemDAO.delete(item);
         RedisUtils.del("item:all", "item:item_id:" + item.getId());
+        itemDAO.delete(item);
     }
 }

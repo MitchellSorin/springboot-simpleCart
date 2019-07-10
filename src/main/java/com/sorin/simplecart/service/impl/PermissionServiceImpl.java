@@ -59,19 +59,19 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public void add(Permission permission) {
-        permissionDAO.saveAndFlush(permission);
         RedisUtils.del("permission:all");
         RedisUtils.delByRegex("permission:user_url:*");
+        permissionDAO.saveAndFlush(permission);
     }
 
     @Override
     public void delete(Permission permission) {
-        permissionDAO.delete(permission);
         RedisUtils.del("permission:all");
         RedisUtils.del("permission:permission_id:" + permission.getId());
         RedisUtils.delByRegex("user:user_permission_userId:*");
         RedisUtils.delByRegex("role_permission:role_id:permission_id:*" + permission.getId());
         RedisUtils.delByRegex("permission:user_url:*");
+        permissionDAO.delete(permission);
     }
 
     @Override

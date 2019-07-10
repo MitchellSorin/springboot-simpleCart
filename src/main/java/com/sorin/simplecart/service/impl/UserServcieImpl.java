@@ -88,10 +88,10 @@ public class UserServcieImpl implements UserServcie {
 
     @Override
     public void delete(User user) {
-        userDAO.delete(user);
         RedisUtils.del("user:user_name:" + user.getName(),
                 "user:user_id:" + user.getId(),
                 "user:user_permission_userId:" + user.getId());
+        userDAO.delete(user);
     }
 
     @Override

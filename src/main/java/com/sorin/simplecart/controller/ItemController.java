@@ -3,7 +3,6 @@ package com.sorin.simplecart.controller;
 import com.sorin.simplecart.baseresult.BaseResult;
 import com.sorin.simplecart.baseresult.BaseResultConstant;
 import com.sorin.simplecart.bean.Item;
-import com.sorin.simplecart.bean.Role;
 import com.sorin.simplecart.service.api.ItemService;
 import com.sorin.simplecart.utils.StringUtils;
 import io.swagger.annotations.Api;

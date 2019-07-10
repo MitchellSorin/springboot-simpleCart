@@ -47,16 +47,9 @@ public class AuthController {
             if (subject.isAuthenticated()) {
                 subject.logout();
             }
-            //注册
             User user = userServcie.selectByName(userName);
             if (null == user) {
-                user = new User();
-                user.setName(userName);
-                user.setId(StringUtils.random(32));
-                String salt = StringUtils.random(16);
-                user.setPassword(new SimpleHash("md5", password, salt, 2).toString());
-                user.setSalt(salt);
-                userServcie.add(user);
+                return new BaseResult(BaseResultConstant.LOGINFAIL, "无此用户");
             }
             //登录
             UsernamePasswordToken token = new UsernamePasswordToken(user.getId(), password);

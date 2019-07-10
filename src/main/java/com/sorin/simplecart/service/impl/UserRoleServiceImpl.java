@@ -42,19 +42,19 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public void add(UserRole userRole) {
-        userRoleDAO.saveAndFlush(userRole);
         RedisUtils.del("user_role:user_id:" + userRole.getUserId(),
                 "user_role:role_id:" + userRole.getRoleId(),
                 "user:user_permission_userId:" + userRole.getUserId(),
                 "permission:user_url:" + userRole.getUserId());
+        userRoleDAO.saveAndFlush(userRole);
     }
 
     @Override
     public void delete(UserRole userRole) {
-        userRoleDAO.delete(userRole);
         RedisUtils.del("user_role:user_id:" + userRole.getUserId(),
                 "user_role:role_id:" + userRole.getRoleId(),
                 "user:user_permission_userId:" + userRole.getUserId(),
                 "permission:user_url:" + userRole.getUserId());
+        userRoleDAO.delete(userRole);
     }
 }

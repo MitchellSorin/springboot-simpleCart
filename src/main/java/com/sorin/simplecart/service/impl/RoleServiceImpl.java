@@ -59,17 +59,17 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void add(Role role) {
-        roleDAO.saveAndFlush(role);
         RedisUtils.del("role:all");
+        roleDAO.saveAndFlush(role);
     }
 
     @Override
     public void delete(Role role) {
-        roleDAO.delete(role);
         RedisUtils.del("role:all", "role:role_id:" + role.getId());
         RedisUtils.delByRegex("user_role:user_id:*");
         RedisUtils.del("user_role:role_id:" + role.getId());
         RedisUtils.delByRegex("user:user_permission_userId:*");
         RedisUtils.delByRegex("permission:user_url:*");
+        roleDAO.delete(role);
     }
 }

@@ -46,16 +46,16 @@ public class RolePermissionServiceImpl implements RolePermissionService {
 
     @Override
     public void add(RolePermission rolePermission) {
-        rolePermissionDAO.saveAndFlush(rolePermission);
         RedisUtils.delByRegex("user:user_permission_userId:*");
         RedisUtils.delByRegex("permission:user_url:*");
+        rolePermissionDAO.saveAndFlush(rolePermission);
     }
 
     @Override
     public void delete(RolePermission rolePermission) {
-        rolePermissionDAO.delete(rolePermission);
         RedisUtils.del("role_permission:role_id:permission_id:" + rolePermission.getRoleId() + "~" + rolePermission.getPermissionId());
         RedisUtils.delByRegex("user:user_permission_userId:*");
         RedisUtils.delByRegex("permission:user_url:*");
+        rolePermissionDAO.delete(rolePermission);
     }
 }

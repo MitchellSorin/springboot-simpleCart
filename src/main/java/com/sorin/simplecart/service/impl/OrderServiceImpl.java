@@ -53,17 +53,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void add(Order order) {
-        orderDAO.saveAndFlush(order);
         RedisUtils.del("order:user_id:" + order.getUserId());
         RedisUtils.delByRegex("order:user_id:item_name:" + order.getUserId() + "*");
         RedisUtils.delByRegex("order:user_id:item_id:" + order.getUserId() + "*");
+        orderDAO.saveAndFlush(order);
     }
 
     @Override
     public void delete(Order order) {
-        orderDAO.delete(order);
         RedisUtils.del("order:user_id:" + order.getUserId());
         RedisUtils.delByRegex("order:user_id:item_name:" + order.getUserId() + "*");
         RedisUtils.delByRegex("order:user_id:item_id:" + order.getUserId() + "*");
+        orderDAO.delete(order);
     }
 }

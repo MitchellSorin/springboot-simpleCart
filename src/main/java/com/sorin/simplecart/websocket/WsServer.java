@@ -1,7 +1,8 @@
-package com.sorin.simplecart.websocket.user;
+package com.sorin.simplecart.websocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -13,21 +14,22 @@ import java.io.IOException;
  * @author LSD
  * @date 2019/06/19
  **/
-@ServerEndpoint("/ws/user/dataServer")
-public class UserServer {
+@ServerEndpoint("/wsTest")
+@Component
+public class WsServer {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(WsServer.class);
     private Session session;
 
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
-        UserServerManager.add(this);
+        WsServerManager.add(this);
     }
 
     @OnClose
     public void onClose() {
-        UserServerManager.remove(this);
+        WsServerManager.remove(this);
     }
 
     @OnError
