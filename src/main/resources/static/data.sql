@@ -1,3 +1,4 @@
+use simple_cart;
 INSERT INTO user_ (id, name, password, salt)
 VALUES ('hfN5pW5GXcXZecPJNvYTDdri7d1RneqN', 'seller', 'a249b828e0c0a5a0aa67e942d2bd1b31', 'e2cWtqEpRO6H1C48')
      , ('HOVQLXMiXTgeddezi7hE8HtUNFRMe4sc', 'superadmin', 'fc049bd9299c16f47e8a9c5941198c7a', 'nsn1xcZIygqx6z4K')
