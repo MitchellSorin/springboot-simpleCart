@@ -20,6 +20,3 @@ the cart includes user, item and order
     2. 管理员：维护用户，角色，权限，用户角色，角色权限
 * 用户注册，商品查询，订单crud，登录可用
 * websocket测试接口没加入权限管理，使用WEB-INF里的测试页面显示数据
-
-## question
-* 缓存多表关联查询的结果后，更新表数据，需要删除使用到该表的所有缓存，如何解耦？
