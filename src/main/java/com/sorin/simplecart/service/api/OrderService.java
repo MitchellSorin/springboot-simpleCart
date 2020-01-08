@@ -31,7 +31,7 @@ public interface OrderService {
      * @author LSD
      * @date 2019/7/4
      */
-    List<Order> selectByUserIdAndItemName(String userId, String itemName);
+    List<Order> selectByUserIdEqualsAndItemNameLike(String userId, String itemName);
 
     /**
      * userId,itemId搜索

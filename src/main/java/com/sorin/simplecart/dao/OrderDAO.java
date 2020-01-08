@@ -19,7 +19,7 @@ public interface OrderDAO extends JpaRepository<Order, OrderKey> {
 
     @Query(nativeQuery = true,
             value = "select o.* from order_ o left join item_ i on o.item_id = i.id where o.user_id = ? and i.name like '%'?'%'")
-    List<Order> findByUserIdAndItemName(String userId, String itemName);
+    List<Order> selectByUserIdEqualsAndItemNameLike(String userId, String itemName);
 
     Order findByUserIdEqualsAndItemIdEquals(String userId, String itemId);
 

@@ -7,13 +7,8 @@ import com.sorin.simplecart.service.api.PermissionService;
 import com.sorin.simplecart.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 权限管理
@@ -26,37 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "权限", description = "CRUD")
 public class PermissionController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PermissionController.class);
-
     @Autowired
     private PermissionService permissionService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @ApiOperation(value = "查询全部")
-    public Object select(
-    ) {
-        try {
-            return new BaseResult(BaseResultConstant.SUCCESS, permissionService.selectAll());
-        } catch (Exception e) {
-            logger.error("PermissionController.select--error:", e);
-            return new BaseResult(BaseResultConstant.FAILED, null);
-        }
+    public Object select() {
+        return new BaseResult<>(permissionService.selectAll());
     }
 
-    @RequestMapping(value = "selectByName", method = RequestMethod.GET)
+    @GetMapping("selectByName")
     @ApiOperation(value = "通过名称查询")
     public Object selectByName(
             @RequestParam(value = "name") String name
     ) {
-        try {
-            return new BaseResult(BaseResultConstant.SUCCESS, permissionService.selectByName(name));
-        } catch (Exception e) {
-            logger.error("PermissionController.selectByName--error:", e);
-            return new BaseResult(BaseResultConstant.FAILED, null);
-        }
+        return new BaseResult<>(permissionService.selectByName(name));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @ApiOperation(value = "新增或修改")
     public Object add(
             @RequestParam(required = false, value = "id") String id,
@@ -64,37 +46,27 @@ public class PermissionController {
             @RequestParam(value = "url") String url,
             @RequestParam(value = "name") String name
     ) {
-        try {
-            Permission permission = new Permission();
-            permission.setDescription(desperation);
-            permission.setName(name);
-            permission.setUrl(url);
-            if (StringUtils.isBlank(id)) {
-                id = StringUtils.random(32);
-            }
-            permission.setId(id);
-            permissionService.add(permission);
-            return new BaseResult(BaseResultConstant.SUCCESS, null);
-        } catch (Exception e) {
-            logger.error("PermissionController.add--error:", e);
-            return new BaseResult(BaseResultConstant.FAILED, null);
+        Permission permission = new Permission();
+        permission.setDescription(desperation);
+        permission.setName(name);
+        permission.setUrl(url);
+        if (StringUtils.isBlank(id)) {
+            id = StringUtils.random(32);
         }
+        permission.setId(id);
+        permissionService.add(permission);
+        return new BaseResult<>(BaseResultConstant.SUCCESS);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
     @ApiOperation(value = "删除")
     public Object delete(
             @RequestParam(value = "id") String id
     ) {
-        try {
-            Permission permission = new Permission();
-            permission.setId(id);
-            permissionService.delete(permission);
-            return new BaseResult(BaseResultConstant.SUCCESS, null);
-        } catch (Exception e) {
-            logger.error("PermissionController.add--error:", e);
-            return new BaseResult(BaseResultConstant.FAILED, null);
-        }
+        Permission permission = new Permission();
+        permission.setId(id);
+        permissionService.delete(permission);
+        return new BaseResult<>(BaseResultConstant.SUCCESS);
     }
 
 }

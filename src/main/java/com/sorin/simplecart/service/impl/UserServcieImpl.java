@@ -6,13 +6,11 @@ import com.sorin.simplecart.dao.UserDAO;
 import com.sorin.simplecart.service.api.UserServcie;
 import com.sorin.simplecart.utils.Page4Navigator;
 import com.sorin.simplecart.utils.StringUtils;
-import com.sorin.simplecart.utils.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * userServiceImpl
@@ -67,30 +65,16 @@ public class UserServcieImpl implements UserServcie {
 
     @Override
     public User selectByName(String name) {
-        if (RedisUtils.hasKey("user:user_name:" + name)) {
-            return (User) RedisUtils.get("user:user_name:" + name);
-        }
-        User user = userDAO.findByNameEquals(name);
-        RedisUtils.set("user:user_name:" + name, user, 1800);
-        return user;
+        return userDAO.findByNameEquals(name);
     }
 
     @Override
     public User selectById(String id) {
-        if (RedisUtils.hasKey("user:user_id:" + id)) {
-            return (User) RedisUtils.get("user:user_id:" + id);
-        }
-        Optional<User> op = userDAO.findById(id);
-        User user = op.orElse(null);
-        RedisUtils.set("user:user_id:" + id, user, 1800);
-        return user;
+        return userDAO.findById(id).orElse(null);
     }
 
     @Override
     public void delete(User user) {
-        RedisUtils.del("user:user_name:" + user.getName(),
-                "user:user_id:" + user.getId(),
-                "user:user_permission_userId:" + user.getId());
         userDAO.delete(user);
     }
 
@@ -102,8 +86,6 @@ public class UserServcieImpl implements UserServcie {
 
     @Override
     public List<Permission> getPermission(String id) {
-        List<Permission> permissions = userDAO.getPermission(id);
-        RedisUtils.set("user:user_permission_userId:" + id, permissions);
-        return permissions;
+        return userDAO.getPermission(id);
     }
 }

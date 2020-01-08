@@ -11,19 +11,13 @@ public enum BaseResultConstant {
     FAILED(0, "failed"),
     //success
     SUCCESS(1, "success"),
-    //loginSuccess
-    LOGINSUCCESS(2, "登录成功"),
-    //loginFail
-    LOGINFAIL(3, "登录失败"),
     //unlogin
-    UNLOGIN(4, "未登录或会话已失效"),
+    UN_LOGIN(-1, "未登录或会话已失效"),
     //unauthorized
-    UNAUTHORIZED(5, "当前用户无权访问"),
-    //logoutSuccess
-    LOGOUTSUCCESS(6, "登出成功");
+    UN_AUTHORIZED(2, "当前用户无权访问");
 
-    public int code;
-    public String message;
+    private int code;
+    private String message;
 
     private BaseResultConstant(int code, String message) {
         this.code = code;
