@@ -3,8 +3,6 @@ package com.sorin.simplecart.aop;
 import com.sorin.simplecart.baseresult.BaseResult;
 import com.sorin.simplecart.baseresult.BaseResultConstant;
 import com.sorin.simplecart.exception.CheckException;
-import com.sorin.simplecart.exception.UnAuthorizedException;
-import com.sorin.simplecart.exception.UnLoginException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -48,10 +46,6 @@ public class ControllerAOP {
         if (e instanceof CheckException) {
             result = new BaseResult<>(BaseResultConstant.FAILED);
             result.setMessage(e.getLocalizedMessage());
-        } else if (e instanceof UnLoginException) {
-            result = new BaseResult<>(BaseResultConstant.UN_LOGIN);
-        } else if (e instanceof UnAuthorizedException) {
-            result = new BaseResult<>(BaseResultConstant.UN_AUTHORIZED);
         } else {
             result = new BaseResult<>(BaseResultConstant.FAILED);
             log.error(joinPoint.getSignature() + " error:" + e);

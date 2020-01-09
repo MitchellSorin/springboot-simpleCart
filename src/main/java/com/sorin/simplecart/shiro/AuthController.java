@@ -39,8 +39,11 @@ public class AuthController {
             @RequestParam(required = false, value = "userName") String userName,
             @RequestParam(required = false, value = "password") String password
     ) {
+        if (StringUtils.isBlank(userName) && StringUtils.isBlank(password)) {
+            throw new CheckException("请先登录");
+        }
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
-            throw new CheckException("请输入正确的账户密码");
+            throw new CheckException("请输入正确的账户名密码");
         }
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
