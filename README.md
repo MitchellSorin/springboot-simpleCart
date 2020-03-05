@@ -8,6 +8,7 @@ the cart includes user, item and order
 * swagger
 * websocket
 * shiro
+* activeMQ
 
 ## introduction
 * 业务功能：用户注册，商品维护，订单的crud
