@@ -14,10 +14,7 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 登录管理
@@ -33,11 +30,11 @@ public class AuthController {
     @Autowired
     private UserServcie userServcie;
 
-    @RequestMapping(value = "/login")
+    @PostMapping(value = "/login")
     @ApiOperation(value = "登录")
     public Object login(
-            @RequestParam(required = false, value = "userName") String userName,
-            @RequestParam(required = false, value = "password") String password
+            @RequestParam(required = false, defaultValue = "superadmin", value = "userName") String userName,
+            @RequestParam(required = false, defaultValue = "1", value = "password") String password
     ) {
         if (StringUtils.isBlank(userName) && StringUtils.isBlank(password)) {
             throw new CheckException("请先登录");

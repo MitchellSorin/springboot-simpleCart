@@ -1,4 +1,4 @@
-package com.sorin.simplecart.activemq;
+package com.sorin.simplecart.activemq.original;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 

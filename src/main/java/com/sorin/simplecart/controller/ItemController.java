@@ -66,7 +66,7 @@ public class ItemController {
         Item item = new Item();
         item.setId(id);
         itemService.delete(item);
-        return new BaseResult(BaseResultConstant.SUCCESS);
+        return new BaseResult<>(BaseResultConstant.SUCCESS);
     }
 
 }
