@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
  * @author LSD
  * @date 2020/03/06
  **/
-@Component
-public class Consumer {
+//@Component
+public class ActiveMQConsumer {
 
     @JmsListener(destination = "my-queue", containerFactory = "jmsListenerContainerQueue")
     @SendTo("out-queue")

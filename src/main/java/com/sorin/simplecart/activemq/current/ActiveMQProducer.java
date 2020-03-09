@@ -19,10 +19,10 @@ import javax.jms.Topic;
  * @author LSD
  * @date 2020/03/06
  **/
-@RestController
+//@RestController
 @RequestMapping("/activeMQ")
 @Api(tags = "activeMQ")
-public class Producer {
+public class ActiveMQProducer {
 
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
