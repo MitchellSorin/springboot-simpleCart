@@ -10,7 +10,7 @@ import javax.jms.*;
  * @author LSD
  * @date 2020/03/05
  **/
-public class Producer {
+public class ActiveMQProducer {
 
     public static void main(String[] args) {
         QueueProducer producer = new QueueProducer();

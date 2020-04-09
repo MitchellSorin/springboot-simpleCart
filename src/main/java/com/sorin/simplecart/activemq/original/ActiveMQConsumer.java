@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @author LSD
  * @date 2020/03/05
  **/
-public class Consumer {
+public class ActiveMQConsumer {
 
     public static void main(String[] args) {
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 2, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), (r) -> new Thread(r, "mq"));
