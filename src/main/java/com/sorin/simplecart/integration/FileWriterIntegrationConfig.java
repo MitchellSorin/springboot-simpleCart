@@ -1,4 +1,4 @@
-package com.sorin.simplecart.integeration;
+package com.sorin.simplecart.integration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
