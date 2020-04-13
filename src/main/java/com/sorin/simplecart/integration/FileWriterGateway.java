@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  * @date 2020/04/09
  **/
 @Component
-@MessagingGateway(defaultRequestChannel = "textInChannel")
+@MessagingGateway(defaultRequestChannel = "textInChannel", defaultReplyChannel = "textOutChannel")
 public interface FileWriterGateway {
 
-    void writeToFile(
+    Object writeToFile(
             @Header(FileHeaders.FILENAME) String fileName,
             String data
     );

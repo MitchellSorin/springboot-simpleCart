@@ -18,10 +18,7 @@ import java.io.File;
 public class FileWriterIntegrationConfig {
 
     @Bean
-    @Transformer(
-            inputChannel = "textInChannel",
-            outputChannel = "textOutChannel"
-    )
+    @Transformer(inputChannel = "textInChannel", outputChannel = "textOutChannel")
     public GenericTransformer<String, String> upperCaseTransformer() {
         return String::toUpperCase;
     }

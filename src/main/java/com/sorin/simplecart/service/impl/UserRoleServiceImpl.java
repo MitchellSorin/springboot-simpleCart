@@ -3,7 +3,6 @@ package com.sorin.simplecart.service.impl;
 import com.sorin.simplecart.bean.userrole.UserRole;
 import com.sorin.simplecart.dao.UserRoleDAO;
 import com.sorin.simplecart.service.api.UserRoleService;
-import com.sorin.simplecart.utils.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
